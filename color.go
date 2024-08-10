@@ -52,7 +52,7 @@ func newColor(colorString string) (color, error) {
 // newColorMust is similar to newColor, but prints an error and exits if the given color isn't valid.
 func newColorMust(colorString string) color {
 	if clr, err := newColor(colorString); err != nil {
-		printAndExit(err.Error())
+		printErrAndExit(err.Error())
 		panic(err) // NEVER REACHED
 	} else {
 		return clr

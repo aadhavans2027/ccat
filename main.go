@@ -15,7 +15,7 @@ func fileExists(filename string) bool {
 	} else if errors.Is(err, os.ErrNotExist) {
 		return false
 	} else {
-		printAndExit(err.Error())
+		printErrAndExit(err.Error())
 		return false // NEVER REACHED
 	}
 }
@@ -24,7 +24,7 @@ func fileExists(filename string) bool {
 // the file doesn't exist.
 func mustExist(filename string) {
 	if fileExists(filename) != true {
-		printAndExit(os.ErrNotExist.Error())
+		printErrAndExit(os.ErrNotExist.Error())
 	}
 }
 
@@ -52,7 +52,7 @@ func printFile(fileName string) {
 	mustExist(fileName)
 	data, err := os.ReadFile(fileName)
 	if err != nil {
-		printAndExit(err.Error())
+		printErrAndExit(err.Error())
 	}
 	fmt.Print(string(data))
 	return
@@ -62,7 +62,7 @@ func main() {
 
 	// Check if user has provided a file name
 	if len(os.Args) != 2 {
-		printAndExit("Invalid number of arguments")
+		printErrAndExit("Invalid number of arguments")
 	}
 	fileName := os.Args[1]
 	mustExist(fileName)
@@ -78,13 +78,13 @@ func main() {
 	// If the given file has a config, load the config into a stack of regColors.
 	regColorStack, err := loadConfig(configFilename)
 	if err != nil {
-		printAndExit(err.Error())
+		printErrAndExit(err.Error())
 	}
 
 	// Load the input file into a colorunit slice (units) and a byte slice (data)
 	units, data, err := loadInputFile(fileName)
 	if err != nil {
-		printAndExit(err.Error())
+		printErrAndExit(err.Error())
 	}
 
 	// For each regular expression in the stack, apply it to the byte slice. Find
