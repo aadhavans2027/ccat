@@ -1,0 +1,6 @@
+1. Take in a filename as input
+2. Find the file's extension
+3. Look at the corresponding config file, and load the regex-color mappings
+4. Load the file, with each character loaded as an object - character, color
+5. Apply the regexes, one by one, to the file. if a regex matches a certain group of characters, those characters have the corresponding color.
+6. Print the file, char-by-char.

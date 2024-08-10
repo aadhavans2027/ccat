@@ -1,0 +1,5 @@
+1. Man page
+2. Logging
+3. Coloring functions
+4. Flag to list all available colors for your terminal - some terminals will only support the predefined colors.
+    a. Maybe, I could add a field to the 'color' type, which indicates if it is predefined, or defined by me.
