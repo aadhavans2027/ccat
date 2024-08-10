@@ -16,16 +16,18 @@ type colorunit struct {
 // The slice of colorunits is used to fill in the color for each character.
 // The slice of bytes is used to perform the regex matching.
 // The color will be set to the current terminal foreground color.
-func loadInputFile(fileName string) ([]colorunit, []byte) {
+//
+// If there is any error reading the file, that error is returned.
+func loadInputFile(fileName string) ([]colorunit, []byte, error) {
 	data, err := os.ReadFile(fileName)
 	if err != nil {
-		panic(err)
+		return nil, nil, err
 	}
 	units := make([]colorunit, len(data))
 	for idx, c := range data {
 		units[idx] = colorunit{byte(c), newColorMust("NONE")}
 	}
-	return units, data
+	return units, data, nil
 }
 
 // print is used to print out the character in the given colorunit, according to

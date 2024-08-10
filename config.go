@@ -17,14 +17,14 @@ import (
 func loadConfig(configFilename string) (stack.Stack[regColor], error) {
 	configFile, err := os.ReadFile(configFilename)
 	if err != nil {
-		panic(err)
+		return *stack.NewStack[regColor](0), err
 	}
 
 	// Here, I create a MapSlice. This is a slice of key-value pairs, and will
 	// store the results of unmarshalling the YAML file.
 	tempMapSlice := yaml.MapSlice{}
 	if err := yaml.Unmarshal(configFile, &tempMapSlice); err != nil {
-		panic(err)
+		return *stack.NewStack[regColor](0), err
 	}
 
 	// Here, I create the stack which will eventually be returned.
@@ -37,9 +37,9 @@ func loadConfig(configFilename string) (stack.Stack[regColor], error) {
 		re := regexp.MustCompile(item.Key.(string))
 		clr, err := newColor(item.Value.(string))
 		if err != nil {
-			panic(err)
+			return *stack.NewStack[regColor](0), err
 		}
-		// If we got past the panic, then the color _must_ be valid.
+		// If we got past the errors, then the color _must_ be valid.
 		regColorStack.Push(regColor{re, clr})
 	}
 

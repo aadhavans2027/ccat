@@ -8,22 +8,23 @@ import (
 )
 
 // fileExists returns true if the given file exists, and false if it
-// doesn't. It panics if an error is encountered.
+// doesn't. If it encounters an error, it prints the error and exits.
 func fileExists(filename string) bool {
 	if _, err := os.Stat(filename); err == nil {
 		return true
 	} else if errors.Is(err, os.ErrNotExist) {
 		return false
 	} else {
-		panic(err)
+		printAndExit(err.Error())
+		return false // NEVER REACHED
 	}
 }
 
-// mustExist can be called to ensure that a file exists; it panics if
+// mustExist can be called to ensure that a file exists; it errors and exits if
 // the file doesn't exist.
 func mustExist(filename string) {
 	if fileExists(filename) != true {
-		panic(os.ErrNotExist)
+		printAndExit(os.ErrNotExist.Error())
 	}
 }
 
@@ -51,7 +52,7 @@ func printFile(fileName string) {
 	mustExist(fileName)
 	data, err := os.ReadFile(fileName)
 	if err != nil {
-		panic(err)
+		printAndExit(err.Error())
 	}
 	fmt.Print(string(data))
 	return
@@ -61,7 +62,7 @@ func main() {
 
 	// Check if user has provided a file name
 	if len(os.Args) != 2 {
-		panic("ERROR: Invalid number of arguments")
+		printAndExit("Invalid number of arguments")
 	}
 	fileName := os.Args[1]
 	mustExist(fileName)
@@ -77,11 +78,14 @@ func main() {
 	// If the given file has a config, load the config into a stack of regColors.
 	regColorStack, err := loadConfig(configFilename)
 	if err != nil {
-		panic(err)
+		printAndExit(err.Error())
 	}
 
 	// Load the input file into a colorunit slice (units) and a byte slice (data)
-	units, data := loadInputFile(fileName)
+	units, data, err := loadInputFile(fileName)
+	if err != nil {
+		printAndExit(err.Error())
+	}
 
 	// For each regular expression in the stack, apply it to the byte slice. Find
 	// the first and last index of all matches of the regex. Then apply the corresponding color
