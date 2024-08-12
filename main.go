@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -59,6 +60,12 @@ func printFile(fileName string) {
 }
 
 func main() {
+	generateConfigFlag := flag.Bool("generate-config", false, "Generate default config files")
+	flag.Parse()
+	if *generateConfigFlag {
+		generateDefaultConfigs()
+		os.Exit(0)
+	}
 
 	// Check if user has provided a file name
 	if len(os.Args) != 2 {
