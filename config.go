@@ -2,12 +2,75 @@ package main
 
 import (
 	"ccat/stack"
+	"embed"
+	"errors"
+	"io/fs"
 	"os"
+	"os/user"
+	"path/filepath"
 	"regexp"
+	"runtime"
 	"strings"
 
 	"gopkg.in/yaml.v2"
 )
+
+//go:embed config
+var storedConfigs embed.FS // Embed the folder containing config files
+
+func runningOnWindows() bool {
+	return runtime.GOOS == "windows"
+}
+
+// generateDefaultConfigs is used to generate a folder of default config files
+// for common languages. These default config files are embedded into the program, and will
+// be outputted into a directory.
+//
+// If there is an error encountered, the error is returned.
+func generateDefaultConfigs() error {
+
+	var configOutputPath string // Location of config files, depends on OS
+	if runningOnWindows() {
+		configOutputPath = "%APPDATA%\\ccat"
+	} else {
+		currentUser, err := user.Current()
+		if err != nil {
+			panic(err)
+		}
+		configOutputPath = filepath.Join("/home/" + currentUser.Username + "/.config/ccat/")
+	}
+	err := os.MkdirAll(configOutputPath, 0755)
+	if err != nil {
+		if os.IsExist(err) {
+			return errors.New("Directory already exists.")
+		} else {
+			return errors.New("Unable to create directory.")
+		}
+	}
+
+	// Copy each folder from the embedded filesystem, into the destination path
+	err = fs.WalkDir(storedConfigs, "config", func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() { // Skip directories
+			return nil
+		}
+		relPath, _ := filepath.Rel("config", path)
+		dstPath := filepath.Join(configOutputPath, relPath) // Destination path
+
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+
+		if err := os.WriteFile(dstPath, data, 0644); err != nil {
+			return err
+		}
+		return nil
+	})
+	return nil
+}
 
 // loadConfig takes in the filename of a config file. It reads the file,
 // and returns a stack of RegColors, with the item at the bottom being the one that
