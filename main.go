@@ -2,9 +2,9 @@ package main
 
 import (
 	"errors"
-	"flag"
 	"fmt"
 	"os"
+	"os/user"
 	"path/filepath"
 )
 
@@ -33,12 +33,12 @@ func mustExist(filename string) {
 // It returns two values: the first is true if the config file exists.
 // If it does, the second value is the config filename.
 // If it doesn't, the second value is blank and can be ignored.
-func getConfig(extension string) (bool, string) {
+func getConfig(configPath, extension string) (bool, string) {
 	if extension == "" {
 		return false, ""
 	}
 	// Assuming the file has an extension
-	fileName := "config/" + extension[1:] + ".conf"
+	fileName := filepath.Join(configPath, extension[1:]+".conf")
 	if exists := fileExists(fileName); exists == false {
 		return false, ""
 	} else {
@@ -60,11 +60,19 @@ func printFile(fileName string) {
 }
 
 func main() {
-	generateConfigFlag := flag.Bool("generate-config", false, "Generate default config files")
-	flag.Parse()
-	if *generateConfigFlag {
+	// Check if config exists. If it doesn't, generate the config files.
+	var configPath string // Location of config files, depends on OS
+	if runningOnWindows() {
+		configPath = "%APPDATA%\\ccat"
+	} else {
+		currentUser, err := user.Current()
+		if err != nil {
+			panic(err)
+		}
+		configPath = filepath.Join("/home/" + currentUser.Username + "/.config/ccat/")
+	}
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		generateDefaultConfigs()
-		os.Exit(0)
 	}
 
 	// Check if user has provided a file name
@@ -75,7 +83,7 @@ func main() {
 	mustExist(fileName)
 
 	extension := filepath.Ext(fileName)
-	configExists, configFilename := getConfig(extension)
+	configExists, configFilename := getConfig(configPath, extension)
 	// If the given file has no corresponding config, print it out
 	// and exit.
 	if configExists == false {
