@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"os/user"
@@ -60,6 +61,9 @@ func printFile(fileName string) {
 }
 
 func main() {
+	disableColorFlag := flag.Bool("d", false, "Disable color")
+	flag.Parse()
+
 	// Check if config exists. If it doesn't, generate the config files.
 	var configPath string // Location of config files, depends on OS
 	if runningOnWindows() {
@@ -76,17 +80,19 @@ func main() {
 	}
 
 	// Check if user has provided a file name
-	if len(os.Args) != 2 {
-		printErrAndExit("Invalid number of arguments")
+	if len(flag.Args()) < 1 {
+		printErrAndExit("No File specified")
 	}
-	fileName := os.Args[1]
+	fileName := flag.Args()[0]
+
+	// Check if file exists.
 	mustExist(fileName)
 
 	extension := filepath.Ext(fileName)
 	configExists, configFilename := getConfig(configPath, extension)
-	// If the given file has no corresponding config, print it out
-	// and exit.
-	if configExists == false {
+	// If the given file has no corresponding config, or if the 'disable color'
+	// flag is set, print the file out and exit.
+	if configExists == false || *disableColorFlag {
 		printFile(fileName)
 		return
 	}
