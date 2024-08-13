@@ -172,7 +172,7 @@ func main() {
 	if *lineNumberFlag {
 		lineNum = 1
 		fmt.Printf("   %*d  ", lineNumDigits, lineNum)
-
+		lineNum++
 	}
 	for idx, unit := range units {
 		unit.print()
