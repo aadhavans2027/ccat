@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"flag"
 	"fmt"
+	"math"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -60,8 +62,19 @@ func printFile(fileName string) {
 	return
 }
 
+// computeLineNumDigits computes the number of digits in the number of lines
+// in the given byte array.
+func computeLineNumDigits(data []byte) int {
+	numLines := bytes.Count(data, []byte{'\n'}) + 1
+	return int(math.Round(math.Log10(float64(numLines))))
+}
+
 func main() {
 	disableColorFlag := flag.Bool("d", false, "Disable color")
+	lineNumberFlag := flag.Bool("n", false, "Print line numbers")
+	// Used only if lineNumberFlag is true
+	var lineNumDigits int
+	var lineNum int
 	flag.Parse()
 
 	// Check if config exists. If it doesn't, generate the config files.
@@ -96,6 +109,18 @@ func main() {
 		printFile(fileName)
 		return
 	}
+
+	// To save computing time, determine here if the file is empty. If it is, exit
+	// the program.
+	finfo, err := os.Stat(fileName)
+	if err != nil {
+		panic(err)
+	}
+	if finfo.Size() == 0 {
+		os.Exit(0)
+	}
+
+	// Assuming the file is not empty...
 	// If the given file has a config, load the config into a stack of regColors.
 	regColorStack, err := loadConfig(configFilename)
 	if err != nil {
@@ -108,6 +133,11 @@ func main() {
 		printErrAndExit(err.Error())
 	}
 
+	// If the '-n' flag is set, compute the number of digits in the number of lines
+	// in the file, to determine the padding for the line numbers.
+	if *lineNumberFlag {
+		lineNumDigits = computeLineNumDigits(data)
+	}
 	// For each regular expression in the stack, apply it to the byte slice. Find
 	// the first and last index of all matches of the regex. Then apply the corresponding color
 	// to every character within these indices.
@@ -136,7 +166,21 @@ func main() {
 	}
 
 	// After all possible regexes have been matched, print out the contents of 'units'.
-	for _, unit := range units {
+
+	// If the line number flag is set, initialize the lineNum variable and print the first line number
+	// with the appropriate padding.
+	if *lineNumberFlag {
+		lineNum = 1
+		fmt.Printf("   %*d  ", lineNumDigits, lineNum)
+
+	}
+	for idx, unit := range units {
 		unit.print()
+		// If the flag is set and we encounter a newline (and the newline isn't a trailing newline),
+		// then print the next line number.
+		if *lineNumberFlag && unit.ch == '\n' && idx != len(units)-1 {
+			fmt.Printf("   %*d  ", lineNumDigits, lineNum)
+			lineNum++
+		}
 	}
 }
