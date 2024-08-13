@@ -103,9 +103,8 @@ func main() {
 
 	extension := filepath.Ext(fileName)
 	configExists, configFilename := getConfig(configPath, extension)
-	// If the given file has no corresponding config, or if the 'disable color'
-	// flag is set, print the file out and exit.
-	if configExists == false || *disableColorFlag {
+	// If the given file has no corresponding config, print the file out and exit.
+	if configExists == false {
 		printFile(fileName)
 		return
 	}
@@ -145,7 +144,9 @@ func main() {
 	// The infinite for loop exists, because I couldn't figure out a way to pop an element from
 	// the stack inside the 'for' statement. The loop exits when the 'pop' call returns 'false',
 	// indicating that the stack is empty.
-	for {
+	//
+	// The loop is also only run if the 'disable color' flag is not set.
+	for *disableColorFlag == false {
 		regclr, ok := regColorStack.Pop()
 		// regColorStack.Pop() returns false when there are no more elements to pop
 		if ok != true {
