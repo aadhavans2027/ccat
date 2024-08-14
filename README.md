@@ -24,8 +24,21 @@ If you have the `go` command installed, run `make` after cloning the repository.
 ### Getting Started
 The config files are embedded within the binary. They will automatically be installed to the correct location (`%APPDATA/ccat` on Windows, `~/.config/ccat` on UNIX) when the program is first run.
 
+As written above, if provided a file with extension `.example`, the program will look for the config file named `example.conf`. If such a file doesn't exist, the file is printed out without any highlighting.
+
+---
+
+### Config Files
+
+The config files are written in YAML, and have the following syntax:
+
+`"<regex>": COLOR"`
+
+Note that the regex must be enclosed in double quotes, and the color must be capitalized.
+
 ---
 
 ### TODO:
 - Allow user to define colors at runtime by reading RGB values from a config file.
+- Allow users to provide a config file in the command-line, overriding the extension-based config file.
 - Provide releases.
