@@ -30,7 +30,7 @@ As written above, if provided a file with extension `.example`, the program will
 
 ### Config Files
 
-The config files are written in YAML, and have the following syntax:
+The config files are written in YAML. Each line has the following syntax:
 
 `"<regex>": COLOR`
 
