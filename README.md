@@ -19,8 +19,13 @@ ccat is a file printing tool (like 'cat') which uses Regular Expressions to enab
 ### Installing
 If you have the `go` command installed, run `make` after cloning the repository.
 
+---
+
 ### Getting Started
 The config files are embedded within the binary. They will automatically be installed to the correct location (`%APPDATA/ccat` on Windows, `~/.config/ccat` on UNIX) when the program is first run.
-TODO:
+
+---
+
+### TODO:
 - Allow user to define colors at runtime by reading RGB values from a config file.
 - Provide releases.
