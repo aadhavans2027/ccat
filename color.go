@@ -26,8 +26,9 @@ var possibleColors map[string]color = map[string]color{
 	"WHITE":   {"WHITE", colorData.New(colorData.FgWhite)},
 	"GRAY":    {"GRAY", colorData.New(colorData.FgWhite, colorData.Faint)},
 	// Last three numbers are RGB. Reference https://en.wikipedia.org/wiki/ANSI_escape_code for what the first two numbers mean.
-	"ORANGE": {"ORANGE", colorData.New(38, 2, 255, 153, 28)},
-	"NONE":   {"NONE", colorData.New()},
+	"ORANGE":   {"ORANGE", colorData.New(38, 2, 255, 153, 28)},
+	"DARKBLUE": {"DARKBLUE", colorData.New(38, 2, 0, 112, 255)},
+	"NONE":     {"NONE", colorData.New()},
 }
 
 // Apply the given color 'clr' to all units in 'units', within the indices
