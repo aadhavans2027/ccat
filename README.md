@@ -32,7 +32,7 @@ As written above, if provided a file with extension `.example`, the program will
 
 The config files are written in YAML, and have the following syntax:
 
-`"<regex>": COLOR"`
+`"<regex>": COLOR`
 
 Note that the regex must be enclosed in double quotes, and the color must be capitalized.
 
