@@ -1,6 +1,6 @@
 ## ccat
 
-ccat is a file printing tool (like 'cat') which uses Regular Expressions to highlight syntax highlighting.
+ccat is a file printing tool (like 'cat') which uses Regular Expressions to enable syntax highlighting.
 
 ---
 
