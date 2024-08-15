@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-POSSIBLE_GOOS=( "windows" "linux" "darwin" )
+POSSIBLE_GOOS=( "linux" "darwin" )
 POSSIBLE_GOARCH=( "amd64" "arm64" )
 
 for OS in "${POSSIBLE_GOOS[@]}"; do

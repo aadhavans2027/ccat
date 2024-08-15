@@ -78,17 +78,11 @@ func main() {
 	flag.Parse()
 
 	// Check if config exists. If it doesn't, generate the config files.
-	var configPath string              // Location of config files, depends on OS
 	currentUser, err := user.Current() // Get current user, to determine config path
 	if err != nil {
 		panic(err)
 	}
-	if runningOnWindows() {
-		configPath = filepath.Join("C:\\Users" + currentUser.Username + "AppData\\Local\\ccat\\")
-	} else {
-
-		configPath = filepath.Join("/home/" + currentUser.Username + "/.config/ccat/")
-	}
+	configPath := filepath.Join("/home/" + currentUser.Username + "/.config/ccat/")
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		generateDefaultConfigs(configPath)
 	}

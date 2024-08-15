@@ -12,7 +12,7 @@ ccat is a file printing tool (like 'cat') which uses Regular Expressions to enab
 - Highly extensible - to add a config file for an specific file type, name the file `<extension>.conf`.
 - Support for printing line numbers with the `-n` flag.
 - Statically linked Go binary - no runtime dependencies, config files are distributed along with the binary.
-- Cross-platform
+- Linux and MacOS supported.
 
 ---
 
@@ -32,7 +32,7 @@ The following languages have config files included by default:
 ---
 
 ### Getting Started
-The config files are embedded within the binary. They will automatically be installed to the correct location (`%APPDATA/ccat` on Windows, `~/.config/ccat` on UNIX) when the program is first run.
+The config files are embedded within the binary. They will automatically be installed to the correct location (`~/.config/ccat` on UNIX) when the program is first run.
 
 As written above, if provided a file with extension `.example`, the program will look for the config file named `example.conf`. If such a file doesn't exist, the file is printed out without any highlighting.
 
@@ -61,5 +61,6 @@ Note that the color name must be capitalized (and shouldn't contain spaces). The
 ---
 
 ### TODO:
+- Windows support.
 - Allow users to provide a config file in the command-line, overriding the extension-based config file.
 - Provide releases.
