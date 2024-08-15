@@ -34,7 +34,6 @@ The following languages have config files included by default:
 
 - C
 - Go
--
 
 ---
 
