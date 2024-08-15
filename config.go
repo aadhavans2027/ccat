@@ -6,7 +6,6 @@ import (
 	"errors"
 	"io/fs"
 	"os"
-	"os/user"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -24,21 +23,10 @@ func runningOnWindows() bool {
 
 // generateDefaultConfigs is used to generate a folder of default config files
 // for common languages. These default config files are embedded into the program, and will
-// be outputted into a directory.
+// be outputted into the given directory.
 //
 // If there is an error encountered, the error is returned.
-func generateDefaultConfigs() error {
-
-	var configOutputPath string // Location of config files, depends on OS
-	if runningOnWindows() {
-		configOutputPath = "%APPDATA%\\ccat"
-	} else {
-		currentUser, err := user.Current()
-		if err != nil {
-			panic(err)
-		}
-		configOutputPath = filepath.Join("/home/" + currentUser.Username + "/.config/ccat/")
-	}
+func generateDefaultConfigs(configOutputPath string) error {
 	err := os.MkdirAll(configOutputPath, 0755)
 	if err != nil {
 		if os.IsExist(err) {
