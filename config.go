@@ -17,6 +17,8 @@ import (
 //go:embed config
 var storedConfigs embed.FS // Embed the folder containing config files
 
+// runningOnWindows: At the moment this function isn't used. When Window support is added,
+// it will be used to determine if the program is being run on Windows.
 func runningOnWindows() bool {
 	return runtime.GOOS == "windows"
 }
