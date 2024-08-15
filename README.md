@@ -17,6 +17,13 @@ ccat is a file printing tool (like 'cat') which uses Regular Expressions to enab
 ---
 
 ### Installing
+
+Download the appropriate zip-file from the 'Releases' section. Place the executable in your PATH.
+
+---
+
+### Building from source
+
 If you have the `go` command installed, run `make` after cloning the repository.
 
 ---
