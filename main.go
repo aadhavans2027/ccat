@@ -120,6 +120,13 @@ func main() {
 	}
 
 	// Assuming the file is not empty...
+	// If a ccat.colors file exists in the config directory, load all the colors in it
+	if fileExists(filepath.Join(configPath, "ccat.colors")) {
+		err := loadColorsFromFile(filepath.Join(configPath, "ccat.colors"))
+		if err != nil {
+			printErrAndExit(err.Error())
+		}
+	}
 	// If the given file has a config, load the config into a stack of regColors.
 	regColorStack, err := loadConfig(configFilename)
 	if err != nil {
