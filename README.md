@@ -5,7 +5,7 @@ ccat is a file printing tool (like 'cat') which uses Regular Expressions to enab
 ---
 
 ### Features
-- 11 colors oare defined out-of-the-box: RED, BLUE, GREEN, MAGENTA, CYAN, BLACK, WHITE, YELLOW, GRAY, ORANGE and DARKBLUE.
+- 11 colors are defined out-of-the-box: RED, BLUE, GREEN, MAGENTA, CYAN, BLACK, WHITE, YELLOW, GRAY, ORANGE and DARKBLUE.
 - Support for defining custom colors via the `ccat.colors` file.
 - Regex-color mappings are stored in configuration files.
 - Uses the file extension to determine which configuration file to use.
