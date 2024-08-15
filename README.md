@@ -5,7 +5,7 @@ ccat is a file printing tool (like 'cat') which uses Regular Expressions to enab
 ---
 
 ### Features
-- 11 colors out-of-the-box: Red, Blue, Green, Magenta, Cyan, Black, White, Yellow, Gray, Orange and Dark Blue.
+- 11 colors oare defined out-of-the-box: RED, BLUE, GREEN, MAGENTA, CYAN, BLACK, WHITE, YELLOW, GRAY, ORANGE and DARKBLUE.
 - Support for defining custom colors via the `ccat.colors` file.
 - Regex-color mappings are stored in configuration files.
 - Uses the file extension to determine which configuration file to use.
@@ -21,10 +21,22 @@ If you have the `go` command installed, run `make` after cloning the repository.
 
 ---
 
+### Supported Languages
+
+The following languages have config files included by default:
+
+- C
+- Go
+-
+
+---
+
 ### Getting Started
 The config files are embedded within the binary. They will automatically be installed to the correct location (`%APPDATA/ccat` on Windows, `~/.config/ccat` on UNIX) when the program is first run.
 
 As written above, if provided a file with extension `.example`, the program will look for the config file named `example.conf`. If such a file doesn't exist, the file is printed out without any highlighting.
+
+For example, if you want to create syntax highlighting for Java, create a file named `java.conf` in your config directory. In this file, include regular-expressions for each of the langauges's keywords, and provide a corresponding color. Use the provided `c.conf` and `go.conf` files as a starting point.
 
 ---
 
