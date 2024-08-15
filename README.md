@@ -20,7 +20,7 @@ ccat is a file printing tool (like 'cat') which uses Regular Expressions to enab
 
 Download the appropriate zip-file from the 'Releases' section. Place the executable in your PATH.
 
-NOTE: The releases are not available on the GitHub repo (which is a mirror of https://gitea.twomorecents.org/Rockingcool/ccat). Obtain the releases from there instead.
+NOTE: The releases are not available on the GitHub repo (which is a mirror of https://gitea.twomorecents.org/Rockingcool/ccat). Obtain the [releases](https://gitea.twomorecents.org/Rockingcool/ccat/releases) from there instead.
 
 ---
 
