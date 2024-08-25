@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ccat/stack"
 	"embed"
 	"errors"
+	"gitea.twomorecents.org/Rockingcool/ccat/stack"
 	"io/fs"
 	"os"
 	"path/filepath"
