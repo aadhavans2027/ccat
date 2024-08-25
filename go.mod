@@ -1,4 +1,4 @@
-module ccat
+module gitea.twomorecents.org/Rockingcool/ccat
 
 go 1.22.5
 
