@@ -71,4 +71,3 @@ Note that the color name must be capitalized (and shouldn't contain spaces). The
 ### TODO:
 - Windows support.
 - Allow users to provide a config file in the command-line, overriding the extension-based config file.
-- Provide releases.

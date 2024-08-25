@@ -1,5 +1,4 @@
 1. Man page
-2. README for GitHub Repo
 2. Logging
 3. Coloring functions
 4. Flag to list all available colors for your terminal - some terminals will only support the predefined colors.
