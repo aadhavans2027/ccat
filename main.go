@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"os/user"
 	"path/filepath"
 )
 
@@ -78,11 +77,11 @@ func main() {
 	flag.Parse()
 
 	// Check if config exists. If it doesn't, generate the config files.
-	currentUser, err := user.Current() // Get current user, to determine config path
+	userHomeDir, err := os.UserHomeDir() // Get current user's home directory, to construct config path
 	if err != nil {
 		panic(err)
 	}
-	configPath := filepath.Join("/home/" + currentUser.Username + "/.config/ccat/")
+	configPath := filepath.Join(userHomeDir + "/.config/ccat/")
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		generateDefaultConfigs(configPath)
 	}
