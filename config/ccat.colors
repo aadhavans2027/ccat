@@ -1,0 +1,7 @@
+# The first and last fields are SGR values, used to control things
+# like bold and italic text. If you're unsure what to put, use '38'
+# for the first one and '22' for the last one, for normal text.
+# The last three values are R G B values.
+PINK: 38 244 211 244 22
+BOLD_WHITE: 38 -1 -1 -1 1
+ITALIC_WHITE: 38 -1 -1 -1 3
