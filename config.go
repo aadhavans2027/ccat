@@ -3,13 +3,14 @@ package main
 import (
 	"embed"
 	"errors"
-	"gitea.twomorecents.org/Rockingcool/ccat/stack"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
+
+	"gitea.twomorecents.org/Rockingcool/ccat/stack"
 
 	"gopkg.in/yaml.v2"
 )
@@ -49,7 +50,7 @@ func generateDefaultConfigs(configOutputPath string) error {
 		relPath, _ := filepath.Rel("config", path)
 		dstPath := filepath.Join(configOutputPath, relPath) // Destination path
 
-		data, err := os.ReadFile(path)
+		data, err := storedConfigs.ReadFile(path)
 		if err != nil {
 			return err
 		}
