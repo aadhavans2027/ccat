@@ -157,13 +157,13 @@ func main() {
 		clr := regclr.clr
 		// Returns an int double-slice, where each slice contains the start and end indices
 		// of the match. In this case, I am finding all the matches of 're' in 'data'.
-		matches := re.FindAllSubmatchIndex(data, -1)
+		matches := re.FindAllSubmatch(string(data))
 		if matches == nil {
 			continue
 		}
 		// For each match, apply the corresponding color to all characters in the match.
 		for _, match := range matches {
-			units = applyColor(units, match[0], match[1], clr)
+			units = applyColor(units, match[0].StartIdx, match[0].EndIdx, clr)
 		}
 	}
 
