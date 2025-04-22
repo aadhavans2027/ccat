@@ -88,7 +88,7 @@ func loadConfig(configFilename string) (stack.Stack[regColor], error) {
 	//  returned.
 	regColorStack := stack.NewStack[regColor](len(strings.Split(string(configFile), "\n"))) // The stack will have the same size as the number of lines in the file
 	for _, item := range tempMapSlice {
-		re := regex.MustCompile(item.Key.(string))
+		re := regex.MustCompile(item.Key.(string), regex.RE_MULTILINE)
 		clr, err := newColor(item.Value.(string))
 		if err != nil {
 			return *stack.NewStack[regColor](0), err
