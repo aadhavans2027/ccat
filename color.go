@@ -38,13 +38,13 @@ var possibleColors map[string]color = map[string]color{
 	"GREEN":   {"GREEN", colorData.New(colorData.FgGreen)},
 	"YELLOW":  {"YELLOW", colorData.New(colorData.FgYellow)},
 	"BLUE":    {"BLUE", colorData.New(colorData.FgBlue)},
-	"MAGENTA": {"MAGENTA", colorData.New(38, 2, 254, 141, 255)},
+	"MAGENTA": {"MAGENTA", colorData.New(colorData.FgMagenta)},
 	"CYAN":    {"CYAN", colorData.New(colorData.FgCyan)},
 	"WHITE":   {"WHITE", colorData.New(colorData.FgWhite)},
 	"GRAY":    {"GRAY", colorData.New(colorData.FgWhite, colorData.Faint)},
 	// Last three numbers are RGB. Reference https://en.wikipedia.org/wiki/ANSI_escape_code for what the first two numbers mean.
-	"ORANGE":   {"ORANGE", colorData.New(38, 2, 255, 153, 28)},
-	"DARKBLUE": {"DARKBLUE", colorData.New(38, 2, 0, 112, 255)},
+//	"ORANGE":   {"ORANGE", colorData.New(38, 2, 255, 153, 28)},
+//	"DARKBLUE": {"DARKBLUE", colorData.New(38, 2, 0, 112, 255)},
 	"NONE":     {"NONE", colorData.New()},
 }
 
