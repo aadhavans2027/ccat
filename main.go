@@ -79,7 +79,7 @@ func main() {
 	// Check if config exists. If it doesn't, generate the config files.
 	userHomeDir, err := os.UserHomeDir() // Get current user's home directory, to construct config path
 	if err != nil {
-		panic(err)
+		printErrAndExit("Unable to retrieve user home directory")
 	}
 	configPath := filepath.Join(userHomeDir + "/.config/ccat/")
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
@@ -107,7 +107,7 @@ func main() {
 	// the program.
 	finfo, err := os.Stat(fileName)
 	if err != nil {
-		panic(err)
+		printErrAndExit("Unable to read file")
 	}
 	if finfo.Size() == 0 {
 		os.Exit(0)

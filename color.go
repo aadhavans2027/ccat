@@ -157,7 +157,7 @@ func stringToRGB(rgbString string) (*RGB, error) {
 func loadColorsFromFile(filepath string) error {
 	data, err := os.ReadFile(filepath)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	// Read color config file into a MapSlice
 	tempMapSlice := yaml.MapSlice{}
