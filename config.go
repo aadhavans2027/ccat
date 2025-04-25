@@ -6,11 +6,11 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"regexp"
 	"runtime"
 	"strings"
 
 	"gitea.twomorecents.org/Rockingcool/ccat/stack"
+	"gitea.twomorecents.org/Rockingcool/kleingrep/regex"
 
 	"gopkg.in/yaml.v2"
 )
@@ -88,13 +88,13 @@ func loadConfig(configFilename string) (stack.Stack[regColor], error) {
 	//  returned.
 	regColorStack := stack.NewStack[regColor](len(strings.Split(string(configFile), "\n"))) // The stack will have the same size as the number of lines in the file
 	for _, item := range tempMapSlice {
-		re := regexp.MustCompile(item.Key.(string))
+		re := regex.MustCompile(item.Key.(string), regex.RE_MULTILINE, regex.RE_SINGLE_LINE)
 		clr, err := newColor(item.Value.(string))
 		if err != nil {
 			return *stack.NewStack[regColor](0), err
 		}
 		// If we got past the errors, then the color _must_ be valid.
-		regColorStack.Push(regColor{re, clr})
+		regColorStack.Push(regColor{&re, clr})
 	}
 
 	return *regColorStack, nil
