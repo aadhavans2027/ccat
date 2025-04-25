@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"errors"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -88,7 +89,10 @@ func loadConfig(configFilename string) (stack.Stack[regColor], error) {
 	//  returned.
 	regColorStack := stack.NewStack[regColor](len(strings.Split(string(configFile), "\n"))) // The stack will have the same size as the number of lines in the file
 	for _, item := range tempMapSlice {
-		re := regex.MustCompile(item.Key.(string), regex.RE_MULTILINE, regex.RE_SINGLE_LINE)
+		re, err := regex.Compile(item.Key.(string), regex.RE_MULTILINE, regex.RE_SINGLE_LINE)
+		if err != nil {
+			return *stack.NewStack[regColor](0), fmt.Errorf("%v: '%s'", err, item.Key.(string))
+		}
 		clr, err := newColor(item.Value.(string))
 		if err != nil {
 			return *stack.NewStack[regColor](0), err
