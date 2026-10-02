@@ -95,9 +95,7 @@ func stringToRGB(rgbString string) (*RGB, error) {
 	values := strings.Split(rgbString, " ")
 	// There must be three space-separated strings.
 	if len(values) != 5 {
-		// TODO: Instead of ignoring these errors and returning a generic error (as I do in the
-		// callee), wrap the error returned from this function, inside the error returned by the callee.
-		return nil, fmt.Errorf("Error parsing RGB five-tuple.")
+		return nil, fmt.Errorf("Must be exactly five space-separated numbers per line")
 	}
 	// If any of the strings doesn't represent an integer (or is out of bounds), return an error.
 	// WARNING: LAZY CODE INCOMING
@@ -105,43 +103,46 @@ func stringToRGB(rgbString string) (*RGB, error) {
 	var err error
 	toReturn.sgr1, err = strconv.Atoi(values[0])
 	if err != nil {
-		return nil, fmt.Errorf("Error parsing SGR1 integer: Invalid value.")
+		return nil, fmt.Errorf("Invalid value for first number (try 38 for default)")
 	}
 	if toReturn.sgr1 < 0 || toReturn.sgr1 > 107 { // Maximum value for SGR values
-		return nil, fmt.Errorf("Error parsing SGR1 integer: Out-of-bounds.")
+		return nil, fmt.Errorf("First number out-of-bounds 0 to 107 (try 38 for default)")
 	}
 	toReturn.red, err = strconv.Atoi(values[1])
 	if err != nil {
-		return nil, fmt.Errorf("Error parsing RED integer: Invalid value.")
+		return nil, fmt.Errorf("Invalid value for RED Integer (number 2)")
 	}
 	if toReturn.red < -1 || toReturn.red > 255 {
-		return nil, fmt.Errorf("Error parsing RED integer: Out-of-bounds.")
+		return nil, fmt.Errorf("RED Integer (number 2) out-of-bounds")
 	}
-	toReturn.blue, err = strconv.Atoi(values[2])
+
+	toReturn.green, err = strconv.Atoi(values[2])
 	if err != nil {
-		return nil, fmt.Errorf("Error parsing BLUE integer: Invalid value.")
-	}
-	if toReturn.blue < -1 || toReturn.blue > 255 {
-		return nil, fmt.Errorf("Error parsing BLUE integer: Out-of-bounds.")
-	}
-	toReturn.green, err = strconv.Atoi(values[3])
-	if err != nil {
-		return nil, fmt.Errorf("Error parsing GREEN integer: Invalid value.")
+		return nil, fmt.Errorf("Invalid value for GREEN Integer (number 3)")
 	}
 	if toReturn.green < -1 || toReturn.green > 255 {
-		return nil, fmt.Errorf("Error parsing GREEN integer: Out-of-bounds.")
+		return nil, fmt.Errorf("GREEN Integer (number 3) out-of-bounds")
 	}
+
+	toReturn.blue, err = strconv.Atoi(values[3])
+	if err != nil {
+		return nil, fmt.Errorf("Invalid value for BLUE Integer (number 4)")
+	}
+	if toReturn.blue < -1 || toReturn.blue > 255 {
+		return nil, fmt.Errorf("BLUE Integer (number 4) out-of-bounds")
+	}
+
 	toReturn.sgr2, err = strconv.Atoi(values[4])
 	if err != nil {
-		return nil, fmt.Errorf("Error parsing SGR2 integer: Invalid value.")
+		return nil, fmt.Errorf("Invalid value for last number (try 22 for default)")
 	}
-	if toReturn.sgr2 < 0 || toReturn.sgr2 > 107 {
-		return nil, fmt.Errorf("Error parsing SGR2 integer: Out-of-bounds.")
+	if toReturn.sgr2 < 0 || toReturn.sgr2 > 107 { // Maximum value for SGR values
+		return nil, fmt.Errorf("Last number out-of-bounds 0 to 107 (try 22 for default)")
 	}
 
 	if !(toReturn.red > 0 && toReturn.blue > 0 && toReturn.green > 0) &&
 		!(toReturn.red == -1 && toReturn.green == -1 && toReturn.blue == -1) {
-		return nil, fmt.Errorf("Error parsing color: All values must be positive or -1 for default terminal color.")
+		return nil, fmt.Errorf("RGB values must be positive or -1 for default terminal color")
 	}
 	return &toReturn, nil
 }
@@ -171,7 +172,7 @@ func loadColorsFromFile(filepath string) error {
 		}
 		var rgb *RGB
 		if rgb, err = stringToRGB(item.Value.(string)); err != nil {
-			return fmt.Errorf("Invalid RGB trio: %s", item.Value.(string))
+			return fmt.Errorf("Error parsing color line %s:\t%v", item.Value.(string), err)
 		}
 		// If we haven't returned an error yet, the color must be valid.
 		// Add it to the map. colorData.New() expects values of type colorData.Attribute,
