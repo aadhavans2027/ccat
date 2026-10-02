@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-//go:embed config
+//go:embed config/*
 var storedConfigs embed.FS // Embed the folder containing config files
 
 // runningOnWindows: At the moment this function isn't used. When Window support is added,
